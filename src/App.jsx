@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import './styles/app.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [input, setInput] = useState(''); 
+
+  const handleButtonClick = (value) => {
+    if (value === '=') {
+      try {
+        setInput(eval(input).toString());
+      } catch (error) {
+        setInput('Error');
+      }
+    } else if (value === 'C') {
+      setInput('');
+    } else {
+      setInput(input + value);
+    }
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container">
+        <div className="calc-container">
+          <div className="calc-input">
+            <input type="text" value={input} readOnly />
+          </div>
+          <div className="calc-btns">
+            {['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', '=', 'C'].map((btn, index) => (
+              <button key={index} onClick={() => handleButtonClick(btn)}>
+                {btn}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
